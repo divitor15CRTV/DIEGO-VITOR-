@@ -1,0 +1,363 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="description" content="Crie sua foto personalizada com a moldura Eu Vou · Woman e baixe para compartilhar.">
+  <meta name="theme-color" content="#1c1715">
+  <meta property="og:title" content="Eu Vou · Woman | Sua foto personalizada">
+  <meta property="og:description" content="Envie sua foto, veja o resultado na hora e baixe sua arte para compartilhar.">
+  <meta property="og:type" content="website">
+  <title>Eu Vou · Woman — Sua foto personalizada</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #181311;
+      --panel: #231c19;
+      --panel-lift: #2c231e;
+      --gold: #e6aa69;
+      --cream: #fff3e3;
+      --muted: #b9aaa1;
+      --line: #47362c;
+      --focus: #ffcf8d;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { margin: 0; background: var(--bg); color: var(--cream); font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; -webkit-font-smoothing: antialiased; }
+    body::before { content:""; position:fixed; inset:0; background:radial-gradient(ellipse at 8% 10%, #6039234f, transparent 46%), radial-gradient(ellipse at 95% 85%, #7b46252b, transparent 36%); z-index:-1; pointer-events:none; }
+    button, input { font: inherit; }
+    button { cursor:pointer; }
+    button:disabled { cursor:not-allowed; opacity: .48; }
+    button:focus-visible, input:focus-visible, .drop-zone:focus-visible { outline:3px solid var(--focus); outline-offset:4px; }
+    .wrap { width:min(1152px, calc(100% - 40px)); margin:auto; }
+    .site-head { border-bottom:1px solid #ffffff16; background:#181311bf; }
+    .head-inner { min-height:90px; display:flex; align-items:center; justify-content:space-between; gap:16px; }
+    .brand { display:flex; align-items:center; gap:14px; text-decoration:none; color:inherit; }
+    .brand-mark { width:44px; height:44px; display:grid; place-items:center; border:1px solid #ac794e; border-radius:14px; background:linear-gradient(135deg, #8d512f, #382318); font: 30px Georgia, serif; color:#ffe3bb; }
+    .brand-text { display:grid; gap:2px; }
+    .brand-main { letter-spacing:.16em; font-weight:800; font-size:14px; line-height:1.1; }
+    .brand-sub { font:italic 19px Georgia,serif; letter-spacing:.08em; color:var(--gold); }
+    .head-note { border:1px solid var(--line); border-radius:100px; color:#d6beb1; padding:9px 15px; font-size:12px; letter-spacing:.03em; }
+    main { padding-top:51px; padding-bottom:76px; }
+    .eyebrow { display:inline-flex; gap:9px; align-items:center; color:var(--gold); text-transform:uppercase; letter-spacing:.22em; font-size:11px; font-weight:700; margin:0 0 14px; }
+    .eyebrow::before { content:""; width:27px; height:1px; background:currentColor; }
+    h1 { font:normal clamp(37px,4.5vw,60px)/1.09 Georgia,"Times New Roman",serif; letter-spacing:-.035em; margin:0; }
+    h1 em { color:var(--gold); font-weight:normal; }
+    .intro { margin:17px 0 23px; line-height:1.75; color:#c7b5a7; max-width:680px; font-size:15px; }
+    .mobile-start { display:none; margin:0 0 22px; }
+    .layout { display:grid; grid-template-columns:minmax(0,1.13fr) minmax(320px,.87fr); gap:28px; align-items:start; }
+    .preview-card, .tools { border:1px solid var(--line); border-radius:24px; background:linear-gradient(155deg, #33251f, #211a17 72%); box-shadow:0 26px 60px #00000026; overflow:hidden; }
+    .preview-head { padding:22px 24px 16px; display:flex; justify-content:space-between; align-items:center; gap:12px; }
+    .overline { color:#d7b99e; text-transform:uppercase; letter-spacing:.17em; font-size:11px; font-weight:800; }
+    .status { display:inline-flex; align-items:center; gap:7px; border:1px solid #7e614a; padding:6px 11px; border-radius:50px; font-size:12px; color:#ecd4be; }
+    .status-dot { width:7px; height:7px; border-radius:50%; background:#e9b473; }
+    .status.ready .status-dot { background:#80d8aa; }
+    .preview-pad { padding:0 23px; }
+    .canvas-shell { position:relative; overflow:hidden; border:1px solid #8a654968; border-radius:14px; background:#a66d43; }
+    canvas { width:100%; height:auto; aspect-ratio:1; display:block; touch-action:none; }
+    canvas.drag-enabled { cursor:grab; }
+    canvas.dragging { cursor:grabbing; }
+    .drag-hint { position:absolute; left:50%; bottom:17px; transform:translateX(-50%); background:#211713d9; color:#fff2e0; border:1px solid #e7ba834d; backdrop-filter:blur(5px); border-radius:50px; padding:8px 14px; font-size:12px; white-space:nowrap; pointer-events:none; display:none; }
+    .drag-hint.show { display:block; }
+    .preview-footer { padding:17px 25px 22px; color:#ad9c92; font-size:12px; display:flex; gap:9px; align-items:center; line-height:1.5; }
+    .preview-footer svg { flex:none; }
+    .tools { padding:28px; }
+    .step-top { display:flex; gap:13px; align-items:center; }
+    .step-num { display:grid; place-items:center; flex:none; width:37px; height:37px; border-radius:12px; color:#2f1b0b; background:linear-gradient(135deg, #f5ca91, #cb834a); font-weight:800; font-size:13px; }
+    h2 { font-size:17px; letter-spacing:-.02em; margin:0; }
+    .step-description { color:#bca89a; margin:8px 0 18px; font-size:13px; line-height:1.65; }
+    .drop-zone { display:flex; flex-direction:column; align-items:center; justify-content:center; gap:9px; text-align:center; padding:27px 14px; border:1.5px dashed #9c7050; border-radius:16px; background:#50322244; cursor:pointer; transition:.2s ease; }
+    .drop-zone:hover, .drop-zone.over { border-color:#ecc38f; background:#6c422b55; }
+    .drop-zone svg { color:#f0bc80; }
+    .drop-title { font-weight:750; font-size:14px; }
+    .drop-caption { font-size:12px; color:#bda99b; }
+    .drop-button { margin-top:6px; padding:9px 17px; border:1px solid #b5835e; border-radius:9px; font-size:12px; font-weight:800; color:#fff0dd; background:#75462e; }
+    .file-name { margin-top:13px; color:#d4af8b; overflow-wrap:anywhere; font-size:12px; min-height:18px; }
+    .section-rule { margin:24px 0; height:1px; background:var(--line); }
+    .controls { display:grid; gap:14px; }
+    .range-head { display:flex; justify-content:space-between; color:#e7d6c6; font-size:13px; font-weight:600; margin-bottom:6px; }
+    .range-head output { color:#e8ac70; }
+    input[type=range] { appearance:none; width:100%; height:5px; border-radius:5px; background:#805b43; accent-color:var(--gold); }
+    input[type=range]::-webkit-slider-thumb { appearance:none; width:18px; height:18px; border-radius:50%; background:#ffd09a; border:3px solid #513322; box-shadow:0 0 0 2px #d9985b; }
+    .hint { color:#a99687; font-size:12px; margin:6px 0 0; line-height:1.5; }
+    .reset { border:1px solid #806149; background:#33261f; color:#f1d7bd; border-radius:10px; padding:11px; font-size:12px; font-weight:750; }
+    .primary { width:100%; border:0; border-radius:14px; min-height:55px; display:flex; justify-content:center; align-items:center; gap:10px; padding:15px 16px; font-weight:850; color:#2d190e; background:linear-gradient(105deg, #ffe0ad, #e9a86b 75%, #c48047); box-shadow:0 9px 24px #7e46232e; transition:transform .2s ease; }
+    .primary:enabled:hover { transform:translateY(-2px); }
+    .privacy { margin:15px 0 0; display:flex; gap:8px; align-items:flex-start; font-size:11px; color:#b4a199; line-height:1.65; }
+    .privacy svg { flex:none; margin-top:2px; }
+    .steps-strip { display:flex; flex-wrap:wrap; gap:12px; margin-top:27px; }
+    .steps-strip span { font-size:12px; color:#d7bda5; border:1px solid #674b3a; border-radius:50px; padding:8px 13px; }
+    footer { border-top:1px solid #ffffff18; color:#8f8178; text-align:center; padding:23px 15px 29px; font-size:12px; line-height:1.7; }
+    .toast { position:fixed; left:50%; bottom:20px; transform:translate(-50%, 130px); min-width:min(500px, calc(100% - 30px)); background:#edc495; color:#2c1d12; border-radius:13px; padding:14px 18px; box-shadow:0 20px 40px #0007; text-align:center; font-size:13px; font-weight:750; z-index:10; transition:transform .25s ease, opacity .25s ease; opacity:0; visibility:hidden; pointer-events:none; }
+    .toast.show { transform:translate(-50%,0); opacity:1; visibility:visible; }
+    .visually-hidden { position:absolute!important; width:1px!important; height:1px!important; overflow:hidden!important; clip:rect(0,0,0,0)!important; white-space:nowrap!important; }
+    @media(max-width:850px) { .mobile-start { display:flex; max-width:420px; } .layout { grid-template-columns:1fr; max-width:640px; margin:auto; } h1 { max-width:690px; } .intro { margin-bottom:28px; } main { padding-top:36px; } }
+    @media(max-width:480px) { .wrap { width:min(100% - 26px, 1152px); } .head-inner { min-height:72px; } .head-note { display:none; } h1 { font-size:36px; } .intro { font-size:14px; } .tools { padding:20px; } .preview-head { padding:17px 17px 14px; } .preview-pad { padding:0 13px; } .preview-footer { padding:13px 17px 18px; } .step-description { margin-bottom:13px; } }
+    @media(prefers-reduced-motion:reduce) { *, *::before, *::after { transition:none!important; scroll-behavior:auto!important; } }
+  </style>
+</head>
+<body>
+  <header class="site-head">
+    <div class="wrap head-inner">
+      <a class="brand" href="./" aria-label="Eu Vou Woman, início">
+        <div class="brand-mark" aria-hidden="true">W</div>
+        <div class="brand-text"><span class="brand-main">EU VOU</span><span class="brand-sub">Woman</span></div>
+      </a>
+      <span class="head-note">Crie • Compartilhe • Celebre</span>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <p class="eyebrow">Sua arte personalizada</p>
+    <h1>Seu momento merece <em>uma foto especial.</em></h1>
+    <p class="intro">Escolha uma foto, ajuste o enquadramento e baixe sua arte <strong>Eu Vou · Woman</strong> pronta para publicar no Instagram, WhatsApp ou onde quiser.</p>
+
+    <button type="button" class="primary mobile-start" id="mobileUploadBtn">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 16V4m0 0-4 4m4-4 4 4M4 16v3a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-3"/></svg>
+      Enviar minha foto agora
+    </button>
+    <div class="layout">
+      <section class="preview-card" aria-label="Prévia da imagem">
+        <div class="preview-head">
+          <span class="overline">Prévia da sua arte</span>
+          <span class="status" id="status"><span class="status-dot"></span><span id="statusText">Aguardando foto</span></span>
+        </div>
+        <div class="preview-pad">
+          <div class="canvas-shell">
+            <canvas id="canvas" width="1080" height="1080" role="img" aria-label="Prévia da foto com moldura Eu Vou Woman"></canvas>
+            <span class="drag-hint" id="dragHint">↔ Arraste para ajustar a foto</span>
+          </div>
+        </div>
+        <div class="preview-footer">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d="M12 3v12m0 0-4-4m4 4 4-4M5 17v3h14v-3"/></svg>
+          Resultado em 1080 × 1080 pixels, formato PNG, com a moldura original.
+        </div>
+      </section>
+
+      <section class="tools" aria-label="Personalize sua foto">
+        <div class="step-top"><span class="step-num">01</span><h2>Escolha sua fotografia</h2></div>
+        <p class="step-description">Pode ser uma foto da galeria do celular ou do computador.</p>
+        <div class="drop-zone" id="dropZone" role="button" tabindex="0" aria-label="Selecionar foto para personalizar">
+          <svg width="35" height="35" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-5-5L5 21"/></svg>
+          <span class="drop-title">Toque para enviar sua foto</span>
+          <span class="drop-caption">ou arraste uma imagem para cá</span>
+          <span class="drop-button" aria-hidden="true">Selecionar foto</span>
+          <span class="drop-caption">JPG, PNG e WebP</span>
+        </div>
+        <input class="visually-hidden" type="file" id="photoInput" accept="image/jpeg,image/png,image/webp,image/*" aria-label="Escolher imagem do dispositivo">
+        <div class="file-name" id="fileName" aria-live="polite"></div>
+
+        <div class="section-rule"></div>
+        <div class="step-top"><span class="step-num">02</span><h2>Ajuste se desejar</h2></div>
+        <p class="step-description">A moldura entra automaticamente. Use os controles abaixo somente se quiser aproximar ou mover a foto.</p>
+        <div class="controls">
+          <div><div class="range-head"><label for="zoom">Aproximar foto</label><output id="zoomValue" for="zoom">100%</output></div><input type="range" min="100" max="250" step="1" value="100" id="zoom" disabled><p class="hint">Arraste a foto na prévia para reposicionar.</p></div>
+          <button class="reset" id="resetBtn" type="button" disabled>Centralizar foto novamente</button>
+        </div>
+
+        <div class="section-rule"></div>
+        <div class="step-top"><span class="step-num">03</span><h2>Baixe sua arte pronta</h2></div>
+        <p class="step-description">Salve a imagem no aparelho e compartilhe com suas amigas!</p>
+        <button class="primary" id="downloadBtn" type="button" disabled>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12m0 0-5-5m5 5 5-5M4 17v3a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-3"/></svg>
+          Baixar minha foto com a moldura
+        </button>
+        <p class="privacy"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><rect x="5" y="10" width="14" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg><span>Sua foto é processada no próprio dispositivo. Não é enviada ao nosso servidor.</span></p>
+      </section>
+    </div>
+    <div class="steps-strip" aria-hidden="true"><span>01. Envie sua foto</span><span>02. Ajuste se quiser</span><span>03. Baixe e compartilhe</span></div>
+  </main>
+
+  <footer>Feito com carinho para o encontro <strong>Eu Vou · Woman</strong>.</footer>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <script>
+    (() => {
+      'use strict';
+      const SIZE = 1080;
+      const canvas = document.getElementById('canvas');
+      const ctx = canvas.getContext('2d', { alpha: false });
+      const input = document.getElementById('photoInput');
+      const drop = document.getElementById('dropZone');
+      const zoomInput = document.getElementById('zoom');
+      const zoomValue = document.getElementById('zoomValue');
+      const resetBtn = document.getElementById('resetBtn');
+      const downloadBtn = document.getElementById('downloadBtn');
+      const fileName = document.getElementById('fileName');
+      const status = document.getElementById('status');
+      const statusText = document.getElementById('statusText');
+      const toast = document.getElementById('toast');
+      const dragHint = document.getElementById('dragHint');
+      let photo = null, frame = null, zoom = 1, panX = 0, panY = 0;
+      let dragging = false, lastPointer = {x:0, y:0};
+      let toastTimer;
+      let generation = 0;
+
+      function message(text) {
+        toast.textContent = text;
+        toast.classList.add('show');
+        clearTimeout(toastTimer);
+        toastTimer = setTimeout(() => toast.classList.remove('show'), 4000);
+      }
+
+      function pictureSize() {
+        if (!photo) return null;
+        const iw = photo.naturalWidth || photo.width;
+        const ih = photo.naturalHeight || photo.height;
+        const scale = Math.max(SIZE / iw, SIZE / ih) * zoom;
+        return { w:iw * scale, h:ih * scale };
+      }
+
+      function clampPan() {
+        const dims = pictureSize();
+        if (!dims) return;
+        panX = Math.max(-(dims.w-SIZE)/2, Math.min((dims.w-SIZE)/2, panX));
+        panY = Math.max(-(dims.h-SIZE)/2, Math.min((dims.h-SIZE)/2, panY));
+      }
+
+      function drawPlaceholder() {
+        const grad = ctx.createLinearGradient(0, 0, SIZE, SIZE);
+        grad.addColorStop(0,'#644738'); grad.addColorStop(.55,'#ba8662'); grad.addColorStop(1,'#38271f');
+        ctx.fillStyle = grad;
+        ctx.fillRect(0,0,SIZE,SIZE);
+        ctx.strokeStyle = '#ffffff18';
+        ctx.lineWidth = 2;
+        for (let i=-SIZE;i<SIZE*2;i+=72) { ctx.beginPath(); ctx.moveTo(i,0); ctx.lineTo(i-SIZE,SIZE); ctx.stroke(); }
+        ctx.fillStyle='#ffdfb9';
+        ctx.globalAlpha=.9;
+        ctx.beginPath(); ctx.arc(540,450,90,0,Math.PI*2); ctx.fill();
+        ctx.beginPath(); ctx.ellipse(540,825,220,260,0,Math.PI,Math.PI*2);ctx.fill();
+        ctx.globalAlpha=1;
+      }
+
+      function render() {
+        if (!ctx) return;
+        ctx.clearRect(0,0,SIZE,SIZE);
+        if (photo) {
+          clampPan();
+          const dims = pictureSize();
+          ctx.drawImage(photo,(SIZE-dims.w)/2 + panX,(SIZE-dims.h)/2 + panY,dims.w,dims.h);
+        } else drawPlaceholder();
+        if (frame) ctx.drawImage(frame,0,0,SIZE,SIZE);
+      }
+
+      function enablePhotoUI(file) {
+        zoomInput.disabled = resetBtn.disabled = downloadBtn.disabled = false;
+        status.classList.add('ready');
+        statusText.textContent = 'Sua foto está pronta';
+        fileName.textContent = '✓ ' + file.name;
+        canvas.classList.add('drag-enabled');
+        dragHint.classList.add('show');
+      }
+
+      function loadImage(url) {
+        return new Promise((resolve,reject) => {
+          const img = new Image();
+          img.onload = () => resolve(img);
+          img.onerror = () => reject(new Error('Não foi possível abrir esta imagem.'));
+          img.src = url;
+        });
+      }
+
+      async function setPhoto(file) {
+        if (!file) return;
+        if (!file.type.startsWith('image/')) {
+          message('Selecione uma imagem JPG, PNG ou WebP.');
+          return;
+        }
+        const thisGeneration = ++generation;
+        const url = URL.createObjectURL(file);
+        try {
+          const loaded = await loadImage(url);
+          if (thisGeneration !== generation) return;
+          if (!loaded.naturalWidth || !loaded.naturalHeight) throw new Error('Imagem inválida.');
+          if (!frame) throw new Error('A moldura não foi carregada. Tente atualizar a página.');
+          photo = loaded;
+          panX = panY = 0;
+          zoom = 1;
+          zoomInput.value = '100';
+          zoomValue.value = '100%';
+          enablePhotoUI(file);
+          render();
+          if (window.innerWidth < 850) document.querySelector('.preview-card').scrollIntoView({behavior:'smooth',block:'center'});
+          message('Pronto! Sua moldura foi aplicada à foto.');
+        } catch (err) {
+          message(err.message || 'Não foi possível abrir a foto. Tente um arquivo JPG ou PNG.');
+        } finally {
+          URL.revokeObjectURL(url);
+        }
+      }
+
+      document.getElementById('mobileUploadBtn').addEventListener('click',()=>input.click());
+      drop.addEventListener('click',()=>input.click());
+      drop.addEventListener('keydown',(event)=>{
+        if (event.key==='Enter' || event.key===' ') { event.preventDefault(); input.click(); }
+      });
+      input.addEventListener('change',()=>{
+        setPhoto(input.files?.[0]);
+        input.value='';
+      });
+      ['dragenter','dragover'].forEach(name=>drop.addEventListener(name, e=>{e.preventDefault();drop.classList.add('over');}));
+      ['dragleave','drop'].forEach(name=>drop.addEventListener(name, e=>{e.preventDefault();drop.classList.remove('over');}));
+      drop.addEventListener('drop',e=>setPhoto(e.dataTransfer?.files?.[0]));
+      zoomInput.addEventListener('input',()=>{
+        zoom = Number(zoomInput.value)/100;
+        zoomValue.value = zoomInput.value+'%';
+        render();
+      });
+      resetBtn.addEventListener('click',()=>{
+        zoom = 1; panX = panY = 0;
+        zoomInput.value='100'; zoomValue.value='100%';
+        render();
+        message('Enquadramento centralizado.');
+      });
+
+      canvas.addEventListener('pointerdown',e=>{
+        if (!photo) return;
+        e.preventDefault();
+        dragging=true;
+        lastPointer={x:e.clientX,y:e.clientY};
+        canvas.setPointerCapture(e.pointerId);
+        canvas.classList.add('dragging');
+      });
+      canvas.addEventListener('pointermove',e=>{
+        if (!dragging || !photo) return;
+        const factor = SIZE/canvas.getBoundingClientRect().width;
+        panX+=(e.clientX-lastPointer.x)*factor;
+        panY+=(e.clientY-lastPointer.y)*factor;
+        lastPointer={x:e.clientX,y:e.clientY};
+        render();
+      });
+      function stopDragging(){dragging=false;canvas.classList.remove('dragging');}
+      canvas.addEventListener('pointerup',stopDragging);
+      canvas.addEventListener('pointercancel',stopDragging);
+      canvas.addEventListener('lostpointercapture',stopDragging);
+
+      downloadBtn.addEventListener('click',()=>{
+        if (!photo || !frame) return;
+        render();
+        canvas.toBlob(blob=>{
+          if (!blob) { message('Não foi possível salvar. Tente novamente.'); return; }
+          const url = URL.createObjectURL(blob);
+          const link = document.createElement('a');
+          link.href=url;
+          link.download='eu-vou-woman-minha-foto.png';
+          document.body.appendChild(link);
+          link.click();
+          link.remove();
+          setTimeout(()=>URL.revokeObjectURL(url),60000);
+          message('Sua arte foi gerada! Confira os downloads do aparelho.');
+        },'image/png');
+      });
+
+      render();
+      loadImage('assets/moldura-woman.png').then(img=>{
+        frame = img;
+        render();
+      }).catch(()=>{
+        statusText.textContent='Erro ao carregar moldura';
+        message('Não foi possível carregar a moldura. Atualize a página.');
+      });
+    })();
+  </script>
+</body>
+</html>
